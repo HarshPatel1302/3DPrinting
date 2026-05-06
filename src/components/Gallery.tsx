@@ -24,8 +24,8 @@ export function Gallery() {
         <SectionHeader
           eyebrow="Work"
           titleId="gallery-heading"
-          title="Quality you can see before the first layer."
-          subtitle="Representative portfolio stills (Pexels stock). Swap in photos of your real prints and printers when you have them."
+          title="Real prints, off the bed."
+          subtitle="Recent jobs from The Print Patel — gifts, miniatures, and functional pieces. A few stock fillers remain while we keep adding fresh photos."
         />
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {galleryItems.map((item, i) => (
@@ -46,9 +46,15 @@ export function Gallery() {
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-90" />
-                <span className="absolute left-2 top-2 rounded bg-black/70 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wide text-filament-cyan">
-                  Stock photo
-                </span>
+                {item.stock ? (
+                  <span className="absolute left-2 top-2 rounded bg-black/70 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wide text-filament-cyan">
+                    Stock photo
+                  </span>
+                ) : (
+                  <span className="absolute left-2 top-2 rounded bg-black/70 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wide text-filament-green">
+                    Our print
+                  </span>
+                )}
                 <div className="absolute inset-0 flex flex-col justify-end p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <p className="text-sm font-medium text-white">{item.title}</p>
                   <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-muted-foreground">

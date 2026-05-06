@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { trustBadges } from "@/lib/constants";
+import { CONTACT, trustBadges } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { AnimatedFilament } from "@/components/AnimatedFilament";
 import { cn } from "@/lib/utils";
@@ -33,6 +33,7 @@ function scrollToId(id: string) {
 const heroJumpLinks = [
   { id: "gallery", label: "Work" },
   { id: "printer-motion", label: "In motion" },
+  { id: "timelapses-more", label: "Timelapses" },
   { id: "capabilities", label: "Capabilities" },
   { id: "materials", label: "Materials" },
   { id: "services", label: "Services" },
@@ -72,9 +73,8 @@ export function Hero() {
             transition={{ duration: reduce ? 0 : 0.55, delay: reduce ? 0 : 0.05 }}
             className="font-heading text-4xl font-semibold tracking-tight text-white sm:text-5xl md:text-[3.25rem] md:leading-[1.08]"
           >
-            Precision 3D Printing for{" "}
-            <span className="text-gradient-brand">Prototypes, Products</span>{" "}
-            &amp; Custom Ideas
+            Imagine it.{" "}
+            <span className="text-gradient-brand">Patel prints it.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -82,11 +82,11 @@ export function Hero() {
             transition={{ duration: reduce ? 0 : 0.55, delay: reduce ? 0 : 0.12 }}
             className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
           >
-            From rough concept to finished part — fast, clean, reliable mechanical
-            prints with multi-color AMS workflows and direct-drive flexibility for
-            real-world materials. Built for people who care how the layer lines
-            look <em className="not-italic text-foreground/90">and</em> how the
-            part performs.
+            Your friendly Patel for 3D prints — gifts, prototypes, and the kind of
+            jugaad parts that actually solve a problem. Multi-color AMS workflows,
+            direct-drive flexibility, filament made and{" "}
+            <em className="not-italic text-foreground/90">Patel approved</em>.{" "}
+            {CONTACT.dmCta}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -192,9 +192,13 @@ export function Hero() {
             <div className="relative z-[1] pt-10">
               <ThreePrinterScene reducedMotion={!!reduce} />
             </div>
-            <p className="border-t border-white/10 px-4 py-3 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              Layer preview · stylized scene · replace with your timelapse
-            </p>
+            <button
+              type="button"
+              onClick={() => scrollToId("printer-motion")}
+              className="focus-ring block w-full border-t border-white/10 px-4 py-3 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-filament-cyan"
+            >
+              Stylized layer preview · live timelapses below ↓
+            </button>
           </div>
         </motion.div>
       </div>

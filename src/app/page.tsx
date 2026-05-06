@@ -7,6 +7,7 @@ import { Process } from "@/components/Process";
 import { QuoteForm } from "@/components/QuoteForm";
 import { Gallery } from "@/components/Gallery";
 import { PrinterMotionSection } from "@/components/PrinterMotionSection";
+import { TimelapsesGrid } from "@/components/TimelapsesGrid";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { FAQ } from "@/components/FAQ";
 import { Contact } from "@/components/Contact";
@@ -20,6 +21,7 @@ export default function Home() {
         <Hero />
         <Gallery />
         <PrinterMotionSection />
+        <TimelapsesGrid />
         <div id="capabilities" className="scroll-mt-24 md:scroll-mt-28">
           <PrinterShowcase />
           <Materials />

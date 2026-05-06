@@ -1,6 +1,20 @@
 import Link from "next/link";
 import { CONTACT } from "@/lib/constants";
 
+const footerNav = [
+  { href: "/#gallery", label: "Work" },
+  { href: "/#printer-motion", label: "In motion" },
+  { href: "/#timelapses-more", label: "Timelapses" },
+  { href: "/#capabilities", label: "Capabilities" },
+  { href: "/#materials", label: "Materials" },
+  { href: "/#services", label: "Services" },
+  { href: "/#process", label: "Process" },
+  { href: "/#quote", label: "Quote" },
+  { href: "/#why-us", label: "Why us" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/#contact", label: "Contact" },
+] as const;
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-white/10 bg-black/40 px-4 py-12 sm:px-6 lg:px-10">
@@ -10,80 +24,38 @@ export function SiteFooter() {
             {CONTACT.businessName}
           </p>
           <p className="mt-2 max-w-md text-sm text-muted-foreground">
-            Professional 3D printing with Bambu Lab P1S Combo and Creality
-            Ender-3 S1 Pro — prototypes, multi-color prints, and functional
-            parts with clear quotes.
+            {CONTACT.tagline} {CONTACT.bioBlurb}
+          </p>
+          <p className="mt-2 max-w-md text-sm text-muted-foreground">
+            Bambu Lab P1S Combo + Creality Ender-3 S1 Pro · clear quotes ·{" "}
+            {CONTACT.dmCta}
           </p>
         </div>
         <div className="flex flex-col gap-3 text-sm">
           <p className="font-semibold text-foreground">On this page</p>
-          <Link
-            href="/#gallery"
-            className="text-muted-foreground hover:text-filament-cyan"
-          >
-            Work
-          </Link>
-          <Link
-            href="/#printer-motion"
-            className="text-muted-foreground hover:text-filament-cyan"
-          >
-            In motion
-          </Link>
-          <Link
-            href="/#capabilities"
-            className="text-muted-foreground hover:text-filament-cyan"
-          >
-            Capabilities
-          </Link>
-          <Link
-            href="/#materials"
-            className="text-muted-foreground hover:text-filament-cyan"
-          >
-            Materials
-          </Link>
-          <Link
-            href="/#services"
-            className="text-muted-foreground hover:text-filament-cyan"
-          >
-            Services
-          </Link>
-          <Link
-            href="/#process"
-            className="text-muted-foreground hover:text-filament-cyan"
-          >
-            Process
-          </Link>
-          <Link
-            href="/#quote"
-            className="text-muted-foreground hover:text-filament-cyan"
-          >
-            Quote
-          </Link>
-          <Link
-            href="/#why-us"
-            className="text-muted-foreground hover:text-filament-cyan"
-          >
-            Why us
-          </Link>
-          <Link
-            href="/#faq"
-            className="text-muted-foreground hover:text-filament-cyan"
-          >
-            FAQ
-          </Link>
-          <Link
-            href="/#contact"
-            className="text-muted-foreground hover:text-filament-cyan"
-          >
-            Contact
-          </Link>
+          {footerNav.map(({ href, label }) => (
+            <Link
+              key={`${href}-${label}`}
+              href={href}
+              className="text-muted-foreground hover:text-filament-cyan"
+            >
+              {label}
+            </Link>
+          ))}
         </div>
         <div className="text-xs text-muted-foreground">
-          <p className="mb-2 text-sm font-semibold text-foreground">Media</p>
-          <p>
-            Hero scene is stylized. Replace with your own printer photos and
-            customer print gallery when available. See placeholder comments in
-            code and constants.
+          <p className="mb-2 text-sm font-semibold text-foreground">Follow</p>
+          <a
+            href={CONTACT.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-sm text-muted-foreground underline-offset-4 hover:text-filament-cyan hover:underline"
+          >
+            Instagram · {CONTACT.instagramHandle}
+          </a>
+          <p className="mt-3 max-w-xs">
+            Real photos of recent work and live timelapses across the site —
+            updated as new prints come off the bed.
           </p>
         </div>
       </div>

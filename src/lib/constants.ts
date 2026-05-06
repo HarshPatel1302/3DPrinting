@@ -1,41 +1,49 @@
 /**
- * Site & contact — replace placeholders with your real business details.
- * REPLACE: Real photos — Bambu Lab P1S Combo, Creality Ender-3 S1 Pro, customer prints in /public/gallery.
- * REPLACE: WhatsApp digits (CONTACT.whatsapp), phone, email, address, Instagram.
+ * Site & contact — single source of truth for The Print Patel.
+ * Real photos live in /public/gallery, real timelapses in /public/videos.
  */
 export const CONTACT = {
-  businessName: "LayerForge 3D",
-  /** E.164-style; shown and used in tel: links */
-  phone: "+1 (555) 000-0000",
-  /** Digits only, no + — used in https://wa.me/ */
-  whatsapp: "15550000000",
-  email: "hello@layerforge3d.com",
-  city: "Your City, Region",
-  addressLine: "Pickup by appointment — update this address",
-  instagramHandle: "@layerforge3d",
-  instagramUrl: "https://instagram.com/layerforge3d",
-  linkedinUrl: "https://linkedin.com/company/layerforge3d",
-  businessHours: "Mon–Sat · 9:00–18:00 (local time)",
+  businessName: "The Print Patel",
+  /** E.164-style; shown and used in tel: links. */
+  phone: "+91 79770 51147",
+  /** Digits only, no + — used in https://wa.me/. Same number as phone (India +91). */
+  whatsapp: "917977051147",
+  email: "harshchoudhary882.hc@gmail.com",
+  city: "Kharghar, Navi Mumbai",
+  addressLine: "Pickup & local delivery — DM to confirm",
+  instagramHandle: "@theprintpatel",
+  instagramUrl: "https://instagram.com/theprintpatel",
+  businessHours: "Mon–Sat · 9:00–20:00 IST",
+  tagline: "Imagine it. Patel prints it.",
+  bioBlurb:
+    "Your friendly Patel for 3D prints — Gifts • Prototypes • Jugaad parts. Filament made, Patel approved.",
+  dmCta: "DM karo, print kari daishu.",
 } as const;
 
 export const SITE = {
-  title: "LayerForge 3D | Custom 3D Printing Services",
+  title:
+    "The Print Patel | Custom 3D Printing — Imagine it. Patel prints it.",
   description:
-    "Professional 3D printing services for prototypes, custom parts, miniatures, gifts, and small-batch production using Bambu Lab P1S Combo and Creality Ender-3 S1 Pro.",
+    "The Print Patel — your friendly Patel for custom 3D printing. Gifts, prototypes, jugaad parts and multi-color prints on Bambu Lab P1S Combo and Creality Ender-3 S1 Pro. DM karo, print kari daishu.",
   keywords: [
+    "The Print Patel",
+    "theprintpatel",
     "3D printing service",
-    "custom 3D printing",
+    "custom 3D printing India",
+    "3D printed gifts",
+    "jugaad parts",
     "prototype printing",
+    "multi-color 3D printing",
+    "AMS PLA prints",
     "PLA printing",
     "PETG printing",
     "TPU printing",
-    "multi-color 3D printing",
     "STL OBJ 3MF printing",
-    "design to print",
     "Bambu Lab P1S Combo",
     "Creality Ender-3 S1 Pro",
-    "local 3D printing",
     "small batch 3D printing",
+    "Kharghar 3D printing",
+    "Navi Mumbai 3D printing",
   ],
 } as const;
 
@@ -61,7 +69,7 @@ export const trustBadges = [
   { label: "High-detail printing" },
   { label: "Functional parts" },
   { label: "Fast turnaround" },
-  { label: "Custom orders" },
+  { label: "Custom & jugaad orders" },
 ] as const;
 
 export const printers = [
@@ -135,15 +143,15 @@ export const services: ServiceItem[] = [
   },
   {
     key: "functional",
-    title: "Functional parts",
+    title: "Functional & jugaad parts",
     description:
-      "Brackets, mounts, and parts that need to hold loads or survive wear.",
+      "Brackets, mounts, fixes — parts that need to hold loads or solve a real-world hack.",
     icon: "Wrench",
   },
   {
     key: "gifts",
     title: "Personalized gifts",
-    description: "Nameplates, mementos, and one-of-one objects with story.",
+    description: "Nameplates, mementos, anime/pop-culture pieces, one-of-one objects with story.",
     icon: "Gift",
   },
   {
@@ -260,26 +268,65 @@ export const processSteps = [
   },
 ] as const;
 
-/** Muted looping B-roll (Pexels, free to use). Swap for your own printer footage anytime. */
-export const printerMotionClips = [
+export type PrinterMotionClip = {
+  id: string;
+  headline: string;
+  caption: string;
+  src: string;
+  webmSrc?: string;
+  posterSrc?: string;
+  /** Optional credit metadata (only stock clips need this). */
+  creditLabel?: string;
+  creditHref?: string;
+};
+
+/** Featured timelapses captured on our own printers. */
+export const printerMotionClips: readonly PrinterMotionClip[] = [
   {
-    id: "motion-a",
-    headline: "Layers stacking in real time",
+    id: "tl-feature-1",
+    headline: "Long-run timelapse on the P1S",
     caption:
-      "Stock FDM clip (Pexels / Pixabay). Replace with your Bambu Lab P1S Combo timelapse when ready.",
-    src: "https://videos.pexels.com/video-files/855255/855255-hd_1280_720_25fps.mp4",
-    creditLabel: "Video · Pixabay on Pexels",
-    creditHref: "https://www.pexels.com/video/3d-printer-printing-855255/",
+      "A full job condensed into a minute — clean layer lines, AMS-ready, zero drama.",
+    src: "/videos/tl-feature-1.mp4",
+    webmSrc: "/videos/tl-feature-1.webm",
+    posterSrc: "/videos/tl-feature-1.jpg",
   },
   {
-    id: "motion-b",
-    headline: "Hot end, steady motion",
+    id: "tl-feature-2",
+    headline: "Layers stacking, real time",
     caption:
-      "Stock close-up clip (Pexels). Replace with your Creality Ender-3 S1 Pro B-roll when ready.",
-    src: "https://videos.pexels.com/video-files/30318835/12996667_1920_1080_25fps.mp4",
-    creditLabel: "Video · Jakub Zerdzicki on Pexels",
-    creditHref:
-      "https://www.pexels.com/video/vibrant-3d-printer-in-action-with-neon-lighting-30318835/",
+      "Watch a part grow line by line — the satisfying part of additive manufacturing.",
+    src: "/videos/tl-feature-2.mp4",
+    webmSrc: "/videos/tl-feature-2.webm",
+    posterSrc: "/videos/tl-feature-2.jpg",
+  },
+] as const;
+
+/** More timelapses for the grid section under the featured pair. */
+export const extraTimelapses: readonly PrinterMotionClip[] = [
+  {
+    id: "tl-extra-1",
+    headline: "Multi-color pass",
+    caption: "AMS swapping colors mid-print — branded plaques and gifts.",
+    src: "/videos/tl-extra-1.mp4",
+    webmSrc: "/videos/tl-extra-1.webm",
+    posterSrc: "/videos/tl-extra-1.jpg",
+  },
+  {
+    id: "tl-extra-2",
+    headline: "Detail run on small parts",
+    caption: "Crisp infill and steady extrusion on miniature work.",
+    src: "/videos/tl-extra-2.mp4",
+    webmSrc: "/videos/tl-extra-2.webm",
+    posterSrc: "/videos/tl-extra-2.jpg",
+  },
+  {
+    id: "tl-extra-3",
+    headline: "Quick print, no fuss",
+    caption: "A short print captured end to end — practical, repeatable jobs.",
+    src: "/videos/tl-extra-3.mp4",
+    webmSrc: "/videos/tl-extra-3.webm",
+    posterSrc: "/videos/tl-extra-3.jpg",
   },
 ] as const;
 
@@ -291,28 +338,40 @@ export type GalleryItem = {
   printTimeLabel: string;
   imageSrc: string;
   imageAlt: string;
+  /** Stock photos render a "Stock photo" overlay; local prints do not. */
+  stock?: boolean;
 };
 
 export const galleryItems: readonly GalleryItem[] = [
   {
-    id: "g1",
-    category: "Prototypes",
-    title: "Ergonomic shell prototype",
-    material: "PETG",
-    printTimeLabel: "~14h est.",
-    imageSrc:
-      "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    imageAlt: "Gray 3D printer creating a plastic part on the build plate",
+    id: "p-katana",
+    category: "Gifts & cosplay",
+    title: "Two-tone katana display piece",
+    material: "PLA · purple + black wrap",
+    printTimeLabel: "Multi-part assembly",
+    imageSrc: "/gallery/katana-purple.png",
+    imageAlt:
+      "Display katana with grey blade, black tsuba and purple wrapped handle, 3D printed by The Print Patel",
   },
   {
-    id: "g2",
-    category: "Miniatures",
-    title: "Character bust study",
-    material: "PLA",
-    printTimeLabel: "~9h est.",
-    imageSrc:
-      "https://images.pexels.com/photos/3825581/pexels-photo-3825581.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    imageAlt: "Detailed small plastic figure from additive manufacturing",
+    id: "p-keyholder",
+    category: "Functional parts",
+    title: "Wall-mount key holder shelf",
+    material: "PLA · black",
+    printTimeLabel: "Single-piece print",
+    imageSrc: "/gallery/key-holder.png",
+    imageAlt:
+      "Black 3D-printed wall-mounted key holder with arched shelf and five hooks holding keys",
+  },
+  {
+    id: "p-gengar",
+    category: "Miniatures & collectibles",
+    title: "Gengar collectible figure",
+    material: "PLA · purple, painted accents",
+    printTimeLabel: "Painted finish",
+    imageSrc: "/gallery/gengar.png",
+    imageAlt:
+      "Purple Gengar Pokemon figure, 3D printed and hand-painted with red eyes and white teeth",
   },
   {
     id: "g3",
@@ -323,16 +382,7 @@ export const galleryItems: readonly GalleryItem[] = [
     imageSrc:
       "https://images.pexels.com/photos/4339335/pexels-photo-4339335.jpeg?auto=compress&cs=tinysrgb&w=1200",
     imageAlt: "Functional plastic bracket printed in light gray filament",
-  },
-  {
-    id: "g4",
-    category: "Gifts",
-    title: "Custom nameplate",
-    material: "PLA+",
-    printTimeLabel: "~5h est.",
-    imageSrc:
-      "https://images.pexels.com/photos/6893997/pexels-photo-6893997.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    imageAlt: "Decorative printed object with smooth plastic finish",
+    stock: true,
   },
   {
     id: "g5",
@@ -343,26 +393,7 @@ export const galleryItems: readonly GalleryItem[] = [
     imageSrc:
       "https://images.pexels.com/photos/8961124/pexels-photo-8961124.jpeg?auto=compress&cs=tinysrgb&w=1200",
     imageAlt: "Colorful plastic pieces arranged after 3D printing",
-  },
-  {
-    id: "g6",
-    category: "Tools and fixtures",
-    title: "Assembly jig",
-    material: "PLA+",
-    printTimeLabel: "~6h est.",
-    imageSrc:
-      "https://images.pexels.com/photos/6779716/pexels-photo-6779716.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    imageAlt: "Workshop desk with 3D printer and printed mechanical parts",
-  },
-  {
-    id: "g7",
-    category: "Prototypes",
-    title: "Mechanical housing draft",
-    material: "PLA",
-    printTimeLabel: "~12h est.",
-    imageSrc:
-      "https://images.pexels.com/photos/6153741/pexels-photo-6153741.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    imageAlt: "Prototype enclosure components beside a 3D printer",
+    stock: true,
   },
   {
     id: "g8",
@@ -373,16 +404,7 @@ export const galleryItems: readonly GalleryItem[] = [
     imageSrc:
       "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1200",
     imageAlt: "Small sturdy clips and organizers printed from plastic",
-  },
-  {
-    id: "g9",
-    category: "Miniatures",
-    title: "Terrain detail piece",
-    material: "PLA",
-    printTimeLabel: "~7h est.",
-    imageSrc:
-      "https://images.pexels.com/photos/9246760/pexels-photo-9246760.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    imageAlt: "Fine-detail terrain or hobby piece from a filament printer",
+    stock: true,
   },
 ] as const;
 

@@ -58,7 +58,7 @@ export function WhyChooseUs() {
         <SectionHeader
           eyebrow="Trust"
           titleId="why-heading"
-          title="Why founders and makers trust LayerForge."
+          title="Why founders and makers trust The Print Patel."
           subtitle="Studio-grade workflow without the studio gatekeeping — we are built for iteration, honesty, and parts that survive real use."
         />
         <div className="mb-10 grid max-w-lg grid-cols-2 gap-4 sm:mx-auto">

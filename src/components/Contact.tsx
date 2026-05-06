@@ -28,8 +28,8 @@ export function Contact() {
           <SectionHeader
             eyebrow="Contact"
             titleId="contact-heading"
-            title="Send your design for a quote."
-            subtitle="We respond fastest on WhatsApp — email works great for threads with heavy attachments."
+            title="DM karo, print kari daishu."
+            subtitle="Fastest on WhatsApp or Instagram DM — email works great for long threads with heavy attachments."
           />
           <ul className="mt-8 space-y-4 text-sm">
             <li className="flex items-start gap-3">
@@ -103,15 +103,6 @@ export function Contact() {
             >
               <ExternalLink className="mr-2 h-4 w-4" />
               {CONTACT.instagramHandle}
-            </a>
-            <a
-              href={CONTACT.linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(buttonVariants({ variant: "outline", size: "lg" }), "rounded-full")}
-            >
-              <ExternalLink className="mr-2 h-4 w-4" />
-              LinkedIn
             </a>
           </div>
         </div>

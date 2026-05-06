@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 const nav = [
   { href: "/#gallery", label: "Work" },
   { href: "/#printer-motion", label: "In motion" },
+  { href: "/#timelapses-more", label: "Timelapses" },
   { href: "/#capabilities", label: "Capabilities" },
   { href: "/#materials", label: "Materials" },
   { href: "/#services", label: "Services" },
@@ -28,9 +29,10 @@ export function SiteHeader() {
       <div className="glass-panel mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-2xl px-4 py-3 md:px-6">
         <Link
           href="/"
+          aria-label="The Print Patel — home"
           className="focus-ring font-heading rounded-md text-lg font-semibold tracking-tight text-foreground transition-colors hover:text-filament-cyan md:text-xl"
         >
-          LayerForge<span className="text-filament-cyan">3D</span>
+          The Print Patel
         </Link>
 
         <nav

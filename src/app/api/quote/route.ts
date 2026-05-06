@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     }
 
     // Production: replace with email provider, S3, or CRM webhook.
-    console.info("[LayerForge quote intake]", {
+    console.info("[The Print Patel quote intake]", {
       objective,
       material,
       toleranceNotes,

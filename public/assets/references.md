@@ -1,20 +1,21 @@
 # Media & reference links (owner checklist)
 
-Use this list to source **permitted** imagery and specs for your live site. Do not commit copyrighted marketing assets until you have a license or official embed permission.
+Use this list to source **permitted** imagery and specs for the live site. Do not commit copyrighted marketing assets until you have a license or official permission.
+
+## Site content today
+
+- **Gallery & motion**: Paths and captions are defined in [`src/lib/constants.ts`](../../src/lib/constants.ts) (`galleryItems`, `printerMotionClips`, `extraTimelapses`). Files live under **`public/gallery/`** and **`public/videos/`** (your own photos and transcoded timelapses).
 
 ## Bambu Lab P1S Combo
 
-- Official product/store pages change over time; start at the manufacturer domain (Bambu Lab) and download **only** assets their terms allow for your use case.
-- **REPLACE** hero and gallery images with photos of **your** machine and prints.
+- Use the manufacturer’s official pages for **technical specs** only.
+- On the marketing site, prefer **your own** photos of the machine and prints unless OEM terms explicitly allow otherwise.
 
 ## Creality Ender-3 S1 Pro
 
-- Same approach: use Creality’s official channels for technical specs; use **your own** photos on the marketing site unless you have explicit rights.
+- Same as above: official channels for specs; **your own** photos on the customer-facing site unless you have explicit rights.
 
-## Video embeds
+## Adding more media
 
-- In `src/lib/constants.ts`, add entries to `SITE.videoEmbeds` as `{ title, youtubeId }` **only** for videos you may embed (your own, Creative Commons where allowed, or OEM official embed policy).
-
-## Placeholders
-
-- Gallery tiles are abstract gradients marked **Replace image**. Swap in `public/gallery/` (or similar) and use `next/image` when you add real photos.
+- Drop new images into `public/gallery/` and add rows to `galleryItems`.
+- Add MP4/WebM (+ optional poster) under `public/videos/` and wire entries in `printerMotionClips` / `extraTimelapses`.

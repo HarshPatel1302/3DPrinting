@@ -3,10 +3,9 @@
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { CONTACT, trustBadges } from "@/lib/constants";
+import { CONTACT } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { AnimatedFilament } from "@/components/AnimatedFilament";
-import { cn } from "@/lib/utils";
 
 const ThreePrinterScene = dynamic(
   () =>
@@ -28,21 +27,6 @@ function scrollToId(id: string) {
   const el = document.getElementById(id);
   el?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
-
-/** Anchor labels in the same order as sections on the page (after Hero). */
-const heroJumpLinks = [
-  { id: "gallery", label: "Work" },
-  { id: "printer-motion", label: "In motion" },
-  { id: "timelapses-more", label: "Timelapses" },
-  { id: "capabilities", label: "Capabilities" },
-  { id: "materials", label: "Materials" },
-  { id: "services", label: "Services" },
-  { id: "process", label: "Process" },
-  { id: "quote", label: "Quote" },
-  { id: "why-us", label: "Why us" },
-  { id: "faq", label: "FAQ" },
-  { id: "contact", label: "Contact" },
-] as const;
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -119,63 +103,6 @@ export function Hero() {
               Hardware &amp; materials
             </Button>
           </motion.div>
-          <motion.nav
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: reduce ? 0 : 0.45, delay: reduce ? 0 : 0.24 }}
-            className="mt-6 flex flex-wrap items-center gap-x-0.5 gap-y-2 text-[11px] leading-snug text-muted-foreground sm:text-xs"
-            aria-label="Sections on this page, top to bottom"
-          >
-            <span className="mr-1 shrink-0 font-medium uppercase tracking-wider text-foreground/70">
-              On this page
-            </span>
-            {heroJumpLinks.map((item, i) => (
-              <span key={item.id} className="inline-flex items-center">
-                {i > 0 ? (
-                  <span className="px-1.5 text-white/20" aria-hidden>
-                    ·
-                  </span>
-                ) : null}
-                <button
-                  type="button"
-                  className="focus-ring rounded px-0.5 text-filament-cyan/90 underline-offset-2 hover:text-filament-cyan hover:underline"
-                  onClick={() => scrollToId(item.id)}
-                >
-                  {item.label}
-                </button>
-              </span>
-            ))}
-          </motion.nav>
-          <motion.ul
-            initial="hidden"
-            animate="show"
-            variants={{
-              hidden: {},
-              show: {
-                transition: { staggerChildren: reduce ? 0 : 0.06 },
-              },
-            }}
-            className="mt-10 flex flex-wrap gap-2"
-            aria-label="Service highlights"
-          >
-            {trustBadges.map((b) => (
-              <motion.li
-                key={b.label}
-                variants={{
-                  hidden: { opacity: 0, y: 8 },
-                  show: { opacity: 1, y: 0 },
-                }}
-              >
-                <span
-                  className={cn(
-                    "inline-flex items-center rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs text-muted-foreground backdrop-blur-sm",
-                  )}
-                >
-                  {b.label}
-                </span>
-              </motion.li>
-            ))}
-          </motion.ul>
         </div>
 
         <motion.div
@@ -194,7 +121,7 @@ export function Hero() {
             </div>
             <button
               type="button"
-              onClick={() => scrollToId("printer-motion")}
+              onClick={() => scrollToId("timelapses")}
               className="focus-ring block w-full border-t border-white/10 px-4 py-3 text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition-colors hover:bg-white/[0.04] hover:text-filament-cyan"
             >
               Stylized layer preview · live timelapses below ↓

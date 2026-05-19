@@ -1,31 +1,35 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
 
-const ALLOWED_EXT = new Set([".stl", ".step", ".stp", ".obj", ".3mf"]);
-const MAX_FILE_BYTES = 50 * 1024 * 1024;
-
-function fileExt(name: string) {
-  const i = name.lastIndexOf(".");
-  return i >= 0 ? name.slice(i).toLowerCase() : "";
+function escapeHtml(s: string) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 export async function POST(req: Request) {
   try {
-    const contentType = req.headers.get("content-type") ?? "";
-    if (!contentType.includes("multipart/form-data")) {
-      return NextResponse.json(
-        { error: "Expected multipart form data" },
-        { status: 400 },
-      );
+    const body = (await req.json().catch(() => null)) as
+      | Record<string, string>
+      | null;
+    if (!body) {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
 
-    const form = await req.formData();
-    const objective = String(form.get("objective") ?? "");
-    const material = String(form.get("material") ?? "");
-    const toleranceNotes = String(form.get("toleranceNotes") ?? "");
-    const name = String(form.get("name") ?? "").trim();
-    const email = String(form.get("email") ?? "").trim();
-    const phone = String(form.get("phone") ?? "").trim();
-    const notes = String(form.get("notes") ?? "").trim();
+    const name = (body.name ?? "").trim();
+    const email = (body.email ?? "").trim();
+    const phone = (body.phone ?? "").trim();
+    const printType = (body.printType ?? "").trim();
+    const material = (body.material ?? "").trim();
+    const quantity = (body.quantity ?? "").trim();
+    const sizeEstimate = (body.sizeEstimate ?? "").trim();
+    const color = (body.color ?? "").trim();
+    const strength = (body.strength ?? "").trim();
+    const deadline = (body.deadline ?? "").trim();
+    const message = (body.message ?? "").trim();
 
     if (name.length < 2 || !/.+@.+\..+/.test(email)) {
       return NextResponse.json(
@@ -33,47 +37,85 @@ export async function POST(req: Request) {
         { status: 400 },
       );
     }
-
-    const files = form
-      .getAll("files")
-      .filter((v): v is File => v instanceof File);
-    if (files.length === 0) {
+    if (!message) {
       return NextResponse.json(
-        { error: "At least one CAD file is required" },
+        { error: "Message is required" },
         { status: 400 },
       );
     }
 
-    for (const f of files) {
-      if (!ALLOWED_EXT.has(fileExt(f.name))) {
-        return NextResponse.json(
-          { error: `Unsupported file type: ${f.name}` },
-          { status: 400 },
-        );
-      }
-      if (f.size > MAX_FILE_BYTES) {
-        return NextResponse.json(
-          { error: `File too large: ${f.name}` },
-          { status: 400 },
-        );
-      }
+    const apiKey = process.env.RESEND_API_KEY;
+    const toEmail = process.env.QUOTE_TO_EMAIL;
+    const fromEmail = process.env.QUOTE_FROM_EMAIL ?? "onboarding@resend.dev";
+    if (!apiKey || !toEmail) {
+      return NextResponse.json(
+        { error: "Email service is not configured" },
+        { status: 500 },
+      );
     }
 
-    // Production: replace with email provider, S3, or CRM webhook.
-    console.info("[The Print Patel quote intake]", {
-      objective,
-      material,
-      toleranceNotes,
-      name,
-      email,
-      phone,
-      notes,
-      files: files.map((f) => ({ name: f.name, size: f.size, type: f.type })),
+    const rows: [string, string][] = [
+      ["Name", name],
+      ["Email", email],
+      ["Phone / WhatsApp", phone || "—"],
+      ["Print type", printType || "—"],
+      ["Material", material || "—"],
+      ["Quantity", quantity || "—"],
+      ["Size estimate", sizeEstimate || "—"],
+      ["Color preference", color || "—"],
+      ["Strength requirement", strength || "—"],
+      ["Deadline", deadline || "—"],
+    ];
+
+    const htmlRows = rows
+      .map(
+        ([k, v]) =>
+          `<tr><td style="padding:6px 10px;border-bottom:1px solid #eee;font-weight:600;width:180px;">${escapeHtml(
+            k,
+          )}</td><td style="padding:6px 10px;border-bottom:1px solid #eee;">${escapeHtml(
+            v,
+          )}</td></tr>`,
+      )
+      .join("");
+
+    const html = `
+      <div style="font-family:system-ui,Segoe UI,Roboto,sans-serif;color:#111;">
+        <h2 style="margin:0 0 12px;">New quote request — The Print Patel</h2>
+        <table style="border-collapse:collapse;width:100%;max-width:640px;">${htmlRows}</table>
+        <h3 style="margin:18px 0 6px;">Message</h3>
+        <p style="white-space:pre-wrap;line-height:1.5;">${escapeHtml(message)}</p>
+      </div>
+    `;
+
+    const text = [
+      ...rows.map(([k, v]) => `${k}: ${v}`),
+      "",
+      `Message:`,
+      message,
+    ].join("\n");
+
+    const resend = new Resend(apiKey);
+    const { data, error } = await resend.emails.send({
+      from: `The Print Patel <${fromEmail}>`,
+      to: [toEmail],
+      replyTo: email,
+      subject: `Quote request — ${name}`,
+      html,
+      text,
     });
+
+    if (error) {
+      console.error("[quote intake] resend error", error);
+      return NextResponse.json(
+        { error: error.message ?? "Failed to send email" },
+        { status: 502 },
+      );
+    }
 
     return NextResponse.json({
       ok: true,
-      message: "Quote request recorded. We will follow up manually.",
+      id: data?.id,
+      message: "Thanks — your quote request has been sent.",
     });
   } catch (e) {
     console.error("[quote intake] error", e);

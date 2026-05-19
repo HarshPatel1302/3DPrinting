@@ -2,28 +2,18 @@
 
 import { CONTACT, waMeLink } from "@/lib/constants";
 import { SectionHeader } from "@/components/SectionHeader";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { buttonVariants } from "@/components/ui/button";
 import { ExternalLink, MapPin, MessageCircle, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-function scrollQuote() {
-  document.getElementById("quote")?.scrollIntoView({
-    behavior: "smooth",
-    block: "start",
-  });
-}
-
 export function Contact() {
   return (
-    <section
+    <div
       id="contact"
-      className="scroll-mt-24 relative px-4 py-20 md:scroll-mt-28 sm:px-6 lg:px-10"
+      className="scroll-mt-24 md:scroll-mt-28"
       aria-labelledby="contact-heading"
     >
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2">
+      <div>
         <div>
           <SectionHeader
             eyebrow="Contact"
@@ -106,39 +96,7 @@ export function Contact() {
             </a>
           </div>
         </div>
-        <div className="rounded-3xl border border-white/10 glass-panel p-6 sm:p-8">
-          <h3 className="font-heading text-lg font-semibold text-white">
-            Quick message
-          </h3>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Prefer the full estimator? Use the quote section above — this is for
-            short pings only.
-          </p>
-          <form
-            className="mt-6 space-y-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              scrollQuote();
-            }}
-          >
-            <div className="space-y-2">
-              <Label htmlFor="qc-name">Name</Label>
-              <Input id="qc-name" name="name" placeholder="Your name" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="qc-mail">Email</Label>
-              <Input id="qc-mail" type="email" name="email" placeholder="you@email.com" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="qc-msg">Message</Label>
-              <Textarea id="qc-msg" rows={3} placeholder="One-liner about your project" />
-            </div>
-            <Button type="submit" className="w-full rounded-full">
-              Open full quote form
-            </Button>
-          </form>
-        </div>
       </div>
-    </section>
+    </div>
   );
 }

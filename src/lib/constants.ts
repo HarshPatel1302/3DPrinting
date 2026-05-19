@@ -13,7 +13,7 @@ export const CONTACT = {
   addressLine: "Pickup & local delivery — DM to confirm",
   instagramHandle: "@theprintpatel",
   instagramUrl: "https://instagram.com/theprintpatel",
-  businessHours: "Mon–Sat · 9:00–20:00 IST",
+  businessHours: "Open 24/7 · Every day",
   tagline: "Imagine it. Patel prints it.",
   bioBlurb:
     "Your friendly Patel for 3D prints — Gifts • Prototypes • Jugaad parts. Filament made, Patel approved.",

@@ -7,7 +7,6 @@ import { Process } from "@/components/Process";
 import { QuoteForm } from "@/components/QuoteForm";
 import { Gallery } from "@/components/Gallery";
 import { PrinterMotionSection } from "@/components/PrinterMotionSection";
-import { TimelapsesGrid } from "@/components/TimelapsesGrid";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { FAQ } from "@/components/FAQ";
 import { Contact } from "@/components/Contact";
@@ -21,17 +20,36 @@ export default function Home() {
         <Hero />
         <Gallery />
         <PrinterMotionSection />
-        <TimelapsesGrid />
-        <div id="capabilities" className="scroll-mt-24 md:scroll-mt-28">
-          <PrinterShowcase />
-          <Materials />
-        </div>
+        <section
+          id="capabilities"
+          aria-label="Capabilities and materials"
+          className="scroll-mt-24 border-y border-white/5 bg-black/20 px-4 py-20 md:scroll-mt-28 sm:px-6 lg:px-10"
+        >
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
+            <PrinterShowcase />
+            <Materials />
+          </div>
+        </section>
         <Services />
-        <Process />
+        <section
+          aria-label="Process and trust"
+          className="border-y border-white/5 bg-black/25 px-4 py-20 sm:px-6 lg:px-10"
+        >
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-start lg:gap-16">
+            <Process />
+            <WhyChooseUs />
+          </div>
+        </section>
         <QuoteForm />
-        <WhyChooseUs />
-        <FAQ />
-        <Contact />
+        <section
+          aria-label="Contact and frequently asked questions"
+          className="border-y border-white/5 bg-black/20 px-4 py-20 sm:px-6 lg:px-10"
+        >
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:gap-16">
+            <Contact />
+            <FAQ />
+          </div>
+        </section>
       </main>
     </SmoothScrollProvider>
   );

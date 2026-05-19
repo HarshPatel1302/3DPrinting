@@ -9,15 +9,11 @@ import { cn } from "@/lib/utils";
 /** Primary nav order matches scroll order on the home page (Gallery → … → Contact). */
 const nav = [
   { href: "/#gallery", label: "Work" },
-  { href: "/#printer-motion", label: "In motion" },
-  { href: "/#timelapses-more", label: "Timelapses" },
-  { href: "/#capabilities", label: "Capabilities" },
-  { href: "/#materials", label: "Materials" },
+  { href: "/#timelapses", label: "Timelapses" },
+  { href: "/#capabilities", label: "Capabilities & Materials" },
   { href: "/#services", label: "Services" },
-  { href: "/#process", label: "Process" },
+  { href: "/#process", label: "Process & Trust" },
   { href: "/#quote", label: "Quote" },
-  { href: "/#why-us", label: "Why us" },
-  { href: "/#faq", label: "FAQ" },
   { href: "/#contact", label: "Contact" },
 ] as const;
 
@@ -51,12 +47,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            href="/#quote"
-            className="focus-ring hidden rounded-full border border-filament-cyan/50 bg-filament-cyan/90 px-4 py-2 text-sm font-semibold text-carbon shadow-[0_0_24px_-6px_var(--filament-cyan)] transition hover:bg-filament-cyan md:inline-flex"
-          >
-            Get a Quote
-          </Link>
           <button
             type="button"
             className="focus-ring flex rounded-lg p-2 text-foreground md:hidden"

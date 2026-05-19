@@ -11,19 +11,18 @@ export function Materials() {
   const active = materials.find((m) => m.id === activeId) ?? materials[0];
 
   return (
-    <section
+    <div
       id="materials"
-      className="scroll-mt-24 border-y border-white/5 bg-black/25 px-4 py-20 md:scroll-mt-28 sm:px-6 lg:px-10"
+      className="scroll-mt-24 md:scroll-mt-28"
       aria-labelledby="materials-heading"
     >
-      <div className="mx-auto max-w-7xl">
-        <SectionHeader
-          eyebrow="Materials"
-          titleId="materials-heading"
-          title="Filaments tuned to the job — not the reverse."
-          subtitle="Hover a spool to see where it shines. We will confirm feasibility for high-temp or specialty blends at quote time."
-        />
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+      <SectionHeader
+        eyebrow="Materials"
+        titleId="materials-heading"
+        title="Filaments tuned to the job."
+        subtitle="Hover a spool to see where it shines. We confirm feasibility for high-temp or specialty blends at quote time."
+      />
+      <div className="mt-8 flex flex-wrap justify-center gap-3">
           {materials.map((m) => {
             const isActive = m.id === activeId;
             return (
@@ -33,7 +32,7 @@ export function Materials() {
                 onMouseEnter={() => setActiveId(m.id)}
                 onFocus={() => setActiveId(m.id)}
                 className={cn(
-                  "relative flex flex-col items-center gap-2 rounded-2xl border p-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-filament-cyan sm:p-5",
+                  "relative flex flex-col items-center gap-2 rounded-2xl border p-3 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-filament-cyan",
                   isActive
                     ? "border-filament-cyan/50 bg-filament-cyan/10"
                     : "border-white/10 bg-white/[0.02] hover:border-white/20",
@@ -42,16 +41,16 @@ export function Materials() {
                 aria-label={`${m.name} — ${m.short}`}
               >
                 <motion.div
-                  className="relative h-20 w-20 rounded-full border-4 border-black/50 shadow-inner"
+                  className="relative h-14 w-14 rounded-full border-4 border-black/50 shadow-inner"
                   style={{
                     background: `conic-gradient(from 180deg, ${m.color}, #111, ${m.color})`,
                   }}
                   animate={{ scale: isActive ? 1.06 : 1 }}
                   transition={{ type: "spring", stiffness: 260, damping: 18 }}
                 >
-                  <div className="absolute inset-3 rounded-full bg-[#0c0d0f]/90" />
+                  <div className="absolute inset-2 rounded-full bg-[#0c0d0f]/90" />
                   <div
-                    className="absolute left-1/2 top-2 h-10 w-3 -translate-x-1/2 rounded-sm opacity-90"
+                    className="absolute left-1/2 top-1.5 h-7 w-2 -translate-x-1/2 rounded-sm opacity-90"
                     style={{ backgroundColor: m.color }}
                   />
                 </motion.div>
@@ -72,15 +71,15 @@ export function Materials() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.25 }}
-            className="mt-10 rounded-2xl border border-white/10 glass-panel p-6 sm:p-8"
+            className="mt-6 rounded-2xl border border-white/10 glass-panel p-5"
             role="region"
             aria-live="polite"
             aria-label="Material details"
           >
-            <h3 className="font-heading text-xl font-semibold text-filament-cyan">
+            <h3 className="font-heading text-lg font-semibold text-filament-cyan">
               {active?.name}
             </h3>
-            <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               <strong className="font-medium text-foreground">
                 Best for:{" "}
               </strong>
@@ -88,7 +87,6 @@ export function Materials() {
             </p>
           </motion.div>
         </AnimatePresence>
-      </div>
-    </section>
+    </div>
   );
 }

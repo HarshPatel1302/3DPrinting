@@ -110,11 +110,14 @@ export function ThreePrinterScene({
         gl={{
           antialias: true,
           alpha: true,
+          premultipliedAlpha: false,
           powerPreference: "high-performance",
+        }}
+        onCreated={({ gl }) => {
+          gl.setClearColor(0x000000, 0);
         }}
         dpr={[1, 1.75]}
       >
-        <color attach="background" args={["#00000000"]} />
         <ambientLight intensity={0.45} />
         <spotLight
           position={[2.5, 4, 2]}

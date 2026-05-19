@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { printers } from "@/lib/constants";
 import { SectionHeader } from "@/components/SectionHeader";
 import { cn } from "@/lib/utils";
@@ -104,18 +105,14 @@ function EnderMotionVisualization() {
 
 export function PrinterShowcase() {
   return (
-    <section
-      className="relative border-y border-white/5 bg-black/20 px-4 py-20 sm:px-6 lg:px-10"
-      aria-labelledby="printers-heading"
-    >
-      <div className="mx-auto max-w-7xl">
-        <SectionHeader
-          eyebrow="Capabilities"
-          titleId="printers-heading"
-          title="Two printers. One standard: clean, accurate output."
-          subtitle="An enclosed CoreXY speed platform paired with a versatile direct-drive workhorse — so your job lands on the machine that fits the geometry, material, and color story."
-        />
-        <div className="grid gap-6 md:grid-cols-2">
+    <div aria-labelledby="printers-heading">
+      <SectionHeader
+        eyebrow="Capabilities"
+        titleId="printers-heading"
+        title="Two printers. One clean standard."
+        subtitle="An enclosed CoreXY speed platform paired with a versatile direct-drive workhorse — your job lands on the machine that fits."
+      />
+      <div className="mt-8 grid gap-5">
           {printers.map((p, idx) => (
             <motion.article
               key={p.id}
@@ -128,7 +125,7 @@ export function PrinterShowcase() {
                 transition: { type: "spring", stiffness: 400, damping: 25 },
               }}
               className={cn(
-                "group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br p-6 sm:p-8 metallic-edge shadow-[0_24px_60px_-30px_rgba(0,0,0,0.75)] transition-shadow duration-300 hover:border-filament-cyan/30 hover:shadow-[0_28px_70px_-28px_rgba(34,211,238,0.2)]",
+                "group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br p-5 metallic-edge shadow-[0_24px_60px_-30px_rgba(0,0,0,0.75)] transition-shadow duration-300 hover:border-filament-cyan/30 hover:shadow-[0_28px_70px_-28px_rgba(34,211,238,0.2)]",
                 p.accent === "cyan"
                   ? "from-filament-cyan/10 via-transparent to-transparent"
                   : "from-filament-green/10 via-transparent to-transparent",
@@ -146,17 +143,26 @@ export function PrinterShowcase() {
                 {p.name}
               </h3>
               <p className="mt-1 text-sm text-filament-cyan">{p.tagline}</p>
-              <ul className="mt-5 space-y-2 text-sm text-muted-foreground">
-                {p.bullets.map((b) => (
-                  <li key={b} className="flex gap-2">
-                    <span
-                      className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-filament-cyan"
-                      aria-hidden
-                    />
-                    {b}
-                  </li>
-                ))}
-              </ul>
+              <details className="group/details mt-5 rounded-xl border border-white/10 bg-white/[0.02] open:bg-white/[0.04]">
+                <summary className="focus-ring flex cursor-pointer list-none items-center justify-between gap-2 rounded-xl px-4 py-3 text-sm font-medium text-white">
+                  <span>Specs & features</span>
+                  <ChevronDown
+                    className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open/details:rotate-180"
+                    aria-hidden
+                  />
+                </summary>
+                <ul className="space-y-2 px-4 pb-4 text-sm text-muted-foreground">
+                  {p.bullets.map((b) => (
+                    <li key={b} className="flex gap-2">
+                      <span
+                        className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-filament-cyan"
+                        aria-hidden
+                      />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              </details>
               <div className="mt-8 border-t border-white/10 pt-6">
                 {p.id === "p1s" ? (
                   <AmsFeedVisualization />
@@ -166,8 +172,7 @@ export function PrinterShowcase() {
               </div>
             </motion.article>
           ))}
-        </div>
       </div>
-    </section>
+    </div>
   );
 }

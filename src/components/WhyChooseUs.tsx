@@ -49,48 +49,46 @@ function AnimatedStat({
 
 export function WhyChooseUs() {
   return (
-    <section
+    <div
       id="why-us"
-      className="scroll-mt-24 border-y border-white/5 bg-black/25 px-4 py-20 md:scroll-mt-28 sm:px-6 lg:px-10"
+      className="scroll-mt-24 md:scroll-mt-28"
       aria-labelledby="why-heading"
     >
-      <div className="mx-auto max-w-7xl">
-        <SectionHeader
-          eyebrow="Trust"
-          titleId="why-heading"
-          title="Why founders and makers trust The Print Patel."
-          subtitle="Studio-grade workflow without the studio gatekeeping — we are built for iteration, honesty, and parts that survive real use."
-        />
-        <div className="mb-10 grid max-w-lg grid-cols-2 gap-4 sm:mx-auto">
-          <AnimatedStat value={2} label="Printers online" />
-          <AnimatedStat value={500} label="mm/s peak (P1S class)" />
-        </div>
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {whyChooseUs.map((item, i) => (
-            <motion.li
-              key={item.title}
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-            >
-              <div className="flex h-full gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:p-5">
-                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-filament-green/30 bg-filament-green/10">
-                  <Check className="h-4 w-4 text-filament-green" aria-hidden />
-                </span>
-                <div>
-                  <h3 className="font-heading font-semibold text-white">
-                    {item.title}
-                  </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    {item.body}
-                  </p>
-                </div>
-              </div>
-            </motion.li>
-          ))}
-        </ul>
+      <SectionHeader
+        eyebrow="Trust"
+        titleId="why-heading"
+        title="Why founders and makers trust us."
+        subtitle="Studio-grade workflow without the studio gatekeeping — built for iteration, honesty, and parts that survive real use."
+      />
+      <div className="mt-8 grid grid-cols-2 gap-4">
+        <AnimatedStat value={2} label="Printers online" />
+        <AnimatedStat value={500} label="mm/s peak (P1S class)" />
       </div>
-    </section>
+      <ul className="mt-6 grid gap-3">
+        {whyChooseUs.map((item, i) => (
+          <motion.li
+            key={item.title}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.05 }}
+          >
+            <div className="flex h-full gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-filament-green/30 bg-filament-green/10">
+                <Check className="h-4 w-4 text-filament-green" aria-hidden />
+              </span>
+              <div>
+                <h3 className="font-heading font-semibold text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  {item.body}
+                </p>
+              </div>
+            </div>
+          </motion.li>
+        ))}
+      </ul>
+    </div>
   );
 }

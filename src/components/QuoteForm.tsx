@@ -1,15 +1,14 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { CONTACT, waMeLink, mailtoQuote } from "@/lib/constants";
+import { CONTACT } from "@/lib/constants";
 import { SectionHeader } from "@/components/SectionHeader";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Loader2, MessageCircle, Mail } from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { FileDropzone } from "@/components/quote/FileDropzone";
 
 type FormState = {
   name: string;
@@ -43,16 +42,15 @@ function isValidEmail(v: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
 }
 
+type Status = "idle" | "loading" | "ok" | "err";
+
 export function QuoteForm() {
   const [form, setForm] = useState<FormState>(initial);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>(
     {},
   );
-  const [quoteFiles, setQuoteFiles] = useState<File[]>([]);
-  const [serverStatus, setServerStatus] = useState<
-    "idle" | "loading" | "ok" | "err"
-  >("idle");
-  const [serverMessage, setServerMessage] = useState<string | null>(null);
+  const [status, setStatus] = useState<Status>("idle");
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
   const set = useCallback(<K extends keyof FormState>(k: K, v: FormState[K]) => {
     setForm((f) => ({ ...f, [k]: v }));
@@ -73,90 +71,33 @@ export function QuoteForm() {
     return Object.keys(e).length === 0;
   }
 
-  function buildSummary() {
-    return [
-      `Name: ${form.name}`,
-      `Phone/WhatsApp: ${form.phone}`,
-      `Email: ${form.email}`,
-      `Print type: ${form.printType}`,
-      `Material: ${form.material}`,
-      `Quantity: ${form.quantity}`,
-      `Size estimate: ${form.sizeEstimate || "—"}`,
-      `Color: ${form.color || "—"}`,
-      `Strength needs: ${form.strength || "—"}`,
-      `Deadline: ${form.deadline || "—"}`,
-      `Files: ${
-        quoteFiles.length
-          ? quoteFiles.map((f) => f.name).join(", ")
-          : "Will attach via WhatsApp/email"
-      }`,
-      "",
-      form.message,
-    ].join("\n");
-  }
-
-  function sendEmailDraft() {
-    if (!validate()) return;
-    const summary = buildSummary();
-    const subj = `Quote request — ${CONTACT.businessName}`;
-    window.location.href = mailtoQuote(subj, summary);
-  }
-
-  function onSubmit(ev: React.FormEvent) {
+  async function onSubmit(ev: React.FormEvent) {
     ev.preventDefault();
+    setStatusMessage(null);
     if (!validate()) return;
-    const summary = buildSummary();
-    window.open(waMeLink(summary), "_blank", "noopener,noreferrer");
-  }
-
-  async function submitToServer() {
-    setServerMessage(null);
-    if (!validate()) return;
-    if (quoteFiles.length === 0) {
-      setServerStatus("err");
-      setServerMessage(
-        "Add at least one file to submit here, or use WhatsApp / email instead.",
-      );
-      return;
-    }
-    setServerStatus("loading");
-    const fd = new FormData();
-    fd.append("objective", form.printType);
-    fd.append("material", form.material);
-    fd.append(
-      "toleranceNotes",
-      [
-        `Qty: ${form.quantity}`,
-        form.sizeEstimate && `Size: ${form.sizeEstimate}`,
-        form.color && `Color: ${form.color}`,
-        form.strength && `Strength: ${form.strength}`,
-        form.deadline && `Deadline: ${form.deadline}`,
-      ]
-        .filter(Boolean)
-        .join(" · "),
-    );
-    fd.append("name", form.name.trim());
-    fd.append("email", form.email.trim());
-    fd.append("phone", form.phone.trim());
-    fd.append("notes", form.message.trim());
-    quoteFiles.forEach((f) => fd.append("files", f));
-
+    setStatus("loading");
     try {
-      const res = await fetch("/api/quote", { method: "POST", body: fd });
+      const res = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
       const data = (await res.json().catch(() => null)) as {
         ok?: boolean;
         message?: string;
         error?: string;
       } | null;
-      if (!res.ok) {
+      if (!res.ok || !data?.ok) {
         throw new Error(data?.error ?? "Submission failed");
       }
-      setServerStatus("ok");
-      setServerMessage(data?.message ?? "Received — we will follow up soon.");
-      setQuoteFiles([]);
+      setStatus("ok");
+      setStatusMessage(
+        data.message ?? "Thanks — your quote request has been sent.",
+      );
+      setForm(initial);
     } catch (e) {
-      setServerStatus("err");
-      setServerMessage(
+      setStatus("err");
+      setStatusMessage(
         e instanceof Error ? e.message : "Something went wrong.",
       );
     }
@@ -173,7 +114,7 @@ export function QuoteForm() {
           eyebrow="Estimate"
           titleId="quote-heading"
           title="Tell us what you are building."
-          subtitle="We validate on your device, then you can send via WhatsApp or email — or upload CAD files here for a logged intake while you wire email/CRM later."
+          subtitle={`Fill in the details and hit submit — it will email everything to ${CONTACT.email} for a follow-up.`}
           align="center"
           className="mx-auto max-w-2xl text-center"
         />
@@ -237,27 +178,6 @@ export function QuoteForm() {
                 {errors.email}
               </p>
             )}
-          </div>
-
-          <div className="space-y-2">
-            <Label>File upload (optional)</Label>
-            <FileDropzone files={quoteFiles} onChange={setQuoteFiles} />
-            <p className="text-xs text-muted-foreground">
-              Server intake logs metadata in development — replace with email or
-              cloud storage in production. WhatsApp and mailto work without
-              uploads.
-            </p>
-
-            {serverStatus === "ok" && serverMessage ? (
-              <p className="text-sm text-filament-green" role="status">
-                {serverMessage}
-              </p>
-            ) : null}
-            {serverStatus === "err" && serverMessage ? (
-              <p className="text-sm text-destructive" role="alert">
-                {serverMessage}
-              </p>
-            ) : null}
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -400,53 +320,34 @@ export function QuoteForm() {
             finishing, and complexity.
           </p>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <div className="flex flex-col items-center gap-3">
             <Button
               type="submit"
               size="lg"
-              className="rounded-full bg-filament-cyan text-carbon shadow-[0_0_24px_-8px_var(--filament-cyan)] hover:bg-filament-cyan/90"
+              disabled={status === "loading"}
+              className="rounded-full bg-filament-cyan px-10 text-carbon shadow-[0_0_24px_-8px_var(--filament-cyan)] hover:bg-filament-cyan/90 disabled:opacity-70"
             >
-              <MessageCircle className="mr-2 h-4 w-4" />
-              Send via WhatsApp
-            </Button>
-            <Button
-              type="button"
-              size="lg"
-              variant="secondary"
-              className="rounded-full border border-white/15"
-              disabled={serverStatus === "loading"}
-              onClick={() => void submitToServer()}
-            >
-              {serverStatus === "loading" ? (
+              {status === "loading" ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : null}
-              Submit files (server log)
+              ) : (
+                <Mail className="mr-2 h-4 w-4" />
+              )}
+              {status === "loading" ? "Sending…" : "Submit"}
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="lg"
-              className="rounded-full"
-              onClick={sendEmailDraft}
-            >
-              <Mail className="mr-2 h-4 w-4" />
-              Prefill email instead
-            </Button>
-            <a
-              href={waMeLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(buttonVariants({ variant: "outline", size: "lg" }), "rounded-full")}
-            >
-              Open WhatsApp only
-            </a>
-            <a
-              href={`mailto:${CONTACT.email}`}
-              className={cn(buttonVariants({ variant: "ghost", size: "lg" }), "rounded-full")}
-            >
-              <Mail className="mr-2 h-4 w-4" />
-              Email only
-            </a>
+            {status === "ok" && statusMessage ? (
+              <p
+                className="text-sm text-filament-green"
+                role="status"
+                aria-live="polite"
+              >
+                {statusMessage}
+              </p>
+            ) : null}
+            {status === "err" && statusMessage ? (
+              <p className="text-sm text-destructive" role="alert">
+                {statusMessage}
+              </p>
+            ) : null}
           </div>
         </form>
       </div>
